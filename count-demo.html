@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Atomy Counter Section</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #ffffff;
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .counter-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(150px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .counter-box {
+      background: #eef9fc;
+      text-align: center;
+      padding: 25px 10px;
+      border-radius: 10px;
+    }
+
+    .counter-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #000;
+    }
+
+    .counter-label {
+      font-size: 1rem;
+      margin-top: 6px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    @media (max-width: 500px) {
+      .counter-value {
+        font-size: 2rem;
+      }
+      .counter-label {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="counter-grid">
+    <div class="counter-box">
+      <div class="counter-value" data-target="500" data-suffix="+">0</div>
+      <div class="counter-label">Products</div>
+    </div>
+    <div class="counter-box">
+      <div class="counter-value" data-target="26" data-suffix="+">0</div>
+      <div class="counter-label">Countries</div>
+    </div>
+<div class="counter-box">
+  <div class="counter-value" data-target="15000000" data-format="mill">0</div>
+  <div class="counter-label">Members</div>
+</div>
+    <div class="counter-box">
+      <div class="counter-value" data-target="8400" data-suffix="+">0</div>
+      <div class="counter-label">Seminars</div>
+    </div>
+  </div>
+
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const counters = document.querySelectorAll(".counter-value");
+
+  counters.forEach(counter => {
+    const target = Number(counter.getAttribute("data-target"));
+    const suffix = counter.getAttribute("data-suffix") || '';
+    const format = counter.getAttribute("data-format");
+
+    let current = 0;
+    const steps = 100;
+    const increment = Math.ceil(target / steps);
+
+    const update = () => {
+      current += increment;
+      if (current >= target) {
+        current = target;
+      }
+
+      counter.innerText = formatNumber(current, format) + (format ? '' : suffix);
+
+      if (current < target) {
+        setTimeout(update, 20);
+      }
+    };
+
+    const formatNumber = (num, format) => {
+      if (format === 'mill') {
+        return Math.round(num / 1000000) + 'Mill';
+      }
+      return num.toLocaleString();
+    };
+
+    update();
+  });
+});
+
+  </script>
+
+</body>
+</html>
+
+
